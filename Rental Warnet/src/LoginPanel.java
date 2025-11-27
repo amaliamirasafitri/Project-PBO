@@ -68,11 +68,11 @@ public class LoginPanel extends JPanel {
         String pass = new String(txtPassword.getPassword());
 
         if (DatabaseConnection.validateLogin(user, pass)) {
-            JOptionPane.showMessageDialog(this, "Login Sukses! Selamat bekerja, " + user);
+            JOptionPane.showMessageDialog(this, "Login Sukses! Selamat Datang " + user);
             navigator.goHome();
         } else {
             JOptionPane.showMessageDialog(this, 
-                "Gagal Masuk! Cek username/password atau koneksi database.", 
+                "Gagal Masuk! Cek username/password", 
                 "Login Error", 
                 JOptionPane.ERROR_MESSAGE);
         }
