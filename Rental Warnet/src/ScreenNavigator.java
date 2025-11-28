@@ -6,4 +6,7 @@ public interface ScreenNavigator {
     void goToRegister();
     void goToPayment(String paketName, int pcIndex, long durMillis);
     void showCodeThenBack(String paketName, int pcIndex, long durMillis);
+
+    // Kembali ke menu utama
+    void goToMainMenu();
 }
