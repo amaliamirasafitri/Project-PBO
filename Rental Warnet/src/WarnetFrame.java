@@ -15,6 +15,7 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
     private RegisterPanel registerPage; 
     private LoginPanel loginPage;
     private MainMenuPanel mainMenuPanel;
+    private GameListPanel gameListPage;
 
     public WarnetFrame() {
         super("SISTEM BILLING WARNET");
@@ -31,6 +32,7 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
         pcSelectionPage = new PCSelectionPanel(this);
         paymentPage = new PaymentPanel(this);
         codePage = new CodePanel(this);
+        gameListPage = new GameListPanel(this);
 
         root.add(loginPage, "LOGIN");
         root.add(registerPage, "REGISTER");
@@ -39,6 +41,7 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
         root.add(pcSelectionPage, "PC_SELECT");
         root.add(paymentPage, "PAYMENT");
         root.add(codePage, "CODE");
+        root.add(gameListPage, "GAME_LIST");
 
         add(root);
         cards.show(root, "LOGIN");
@@ -77,4 +80,10 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
         codePage.showCode(paketName, pcIndex);
         cards.show(root, "CODE");
     }
+
+    @Override
+    public void goToGameList() {
+        cards.show(root, "GAME_LIST");
+    }
+
 }

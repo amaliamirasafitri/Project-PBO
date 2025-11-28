@@ -47,8 +47,8 @@ public class MainMenuPanel extends JPanel {
         add(btnLogout, gbc);
 
         // Action Listener
-        btnPilihPC.addActionListener(e -> navigator.goToPCSelection(""));  // kosongkan paketName atau sesuaikan
-        btnDaftarGame.addActionListener(e -> showDaftarGame());
+        btnPilihPC.addActionListener(e -> navigator.goToPCSelection(""));
+        btnDaftarGame.addActionListener(e -> navigator.goToGameList());
         btnLogout.addActionListener(e -> navigator.goToLogin());
     }
 
@@ -57,11 +57,5 @@ public class MainMenuPanel extends JPanel {
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
         btn.setFont(new Font("Arial", Font.PLAIN, 18));
-    }
-
-    private void showDaftarGame() {
-        // Jika Anda memiliki panel game list, tinggal panggil navigasi ke sana
-        // Misal: navigator.goToGameList();
-        JOptionPane.showMessageDialog(this, "Fungsi Daftar Game belum diimplementasikan.");
     }
 }
