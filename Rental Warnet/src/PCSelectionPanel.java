@@ -46,8 +46,8 @@ public class PCSelectionPanel extends JPanel {
 
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    long durasi = getDurasiFromPaket(selectedPaketName);
-                    navigator.goToPayment(selectedPaketName, pcNumber, durasi);
+                    // New flow: when a PC is clicked, first choose paket for that PC
+                    navigator.goToPaket(pcNumber);
                 }
 
                 @Override
