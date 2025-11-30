@@ -1,7 +1,6 @@
 public class WarnetDataStore {
 
     public static BillingPackage[] getPaketList() {
-        // TODO: isi sesuai paket billingmu
         return new BillingPackage[0];
     }
 
@@ -19,31 +18,31 @@ public class WarnetDataStore {
                 "https://store.steampowered.com/app/730/CounterStrike_2/"
             ),
             new GameApp(
-                "The Last of Us Part I",
-                "Action, Drama",
-                "2022",
-                "Naughty Dog",
-                "Perjalanan Joel dan Ellie melintasi Amerika pasca-kiamat penuh infeksi mematikan dan manusia yang putus asa.",
-                "/assets/games/tlou1.png",
-                "https://www.imdb.com/title/tt2140553/"
+                "Dota 2",
+                "MOBA, Multiplayer, Strategy, eSports",
+                "2013",
+                "Valve",
+                "Every day, millions of players worldwide enter battle as one of over a hundred Dota heroes. And no matter if it's their 10th hour of play or 1,000th, there's always something new to discover. With regular updates that ensure a constant evolution of gameplay, features, and heroes, Dota 2 has taken on a life of its own.",
+                "Assets/Dota 2.png",
+                "https://store.steampowered.com/app/570/Dota_2/"
             ),
             new GameApp(
-                "God of War Ragnarök",
-                "Action",
-                "2022",
-                "Santa Monica Studio",
-                "Kratos dan Atreus menghadapi takdir dan ancaman Ragnarök di dunia mitologi Nordik.",
-                "/assets/games/gow_ragnarok.png",
-                "https://www.imdb.com/title/tt11700534/"
+                "Marvel Rivals",
+                "Multiplayer, Hero Shooter, PvP, Superhero",
+                "2024",
+                "NetEase Games",
+                "Marvel Rivals is a Super Hero Team-Based PVP Shooter! Assemble an all-star Marvel squad, devise countless strategies by combining powers to form unique Team-Up skills and fight in destructible, ever-changing battlefields across the continually evolving Marvel universe!",
+                "Assets/Marvel Rivals.png",
+                "https://store.steampowered.com/app/2767030/Marvel_Rivals/"
             ),
             new GameApp(
-                "Elden Ring",
-                "Action RPG",
-                "2022",
-                "FromSoftware",
-                "Petualangan di The Lands Between untuk menjadi Elden Lord dengan dunia terbuka luas dan tingkat kesulitan tinggi.",
-                "/assets/games/elden_ring.png",
-                "https://www.imdb.com/title/tt9184986/"
+                "Apex Legends",
+                "Multiplayer, Battle Royale, Shooter, FPS",
+                "2020",
+                "Respawn",
+                "Apex Legends is the award-winning, free-to-play Hero Shooter from Respawn Entertainment. Master an ever-growing roster of legendary characters with powerful abilities, and experience strategic squad play and innovative gameplay in the next evolution of Hero Shooter and Battle Royale.",
+                "Assets/Apex Legends.png",
+                "https://store.steampowered.com/app/1172470/Apex_Legends/"
             )
         };
     }
