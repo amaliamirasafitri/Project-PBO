@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
@@ -20,17 +19,15 @@ public class PaketPanel extends JPanel {
         title.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
         add(title, BorderLayout.NORTH);
 
-        // Use a 2x2 grid so paket cards always fit the screen and scale with the window
         JPanel cards = new JPanel(new GridLayout(2, 2, 20, 20));
         cards.setBackground(Color.BLACK);
         cards.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
 
-        // Paket definitions (features use HTML lists for nicer rendering)
         Paket[] paketList = new Paket[]{
             new Paket("Paket Bronze (1 Jam)", "Cocok buat kamu yang cuma ingin main sebentar atau sekadar mengisi waktu luang.", "• 1 jam bermain\n• Bebas pilih game\n• Kontrol PC\n• Headset & sofa nyaman", "Rp12.000", 1),
             new Paket("Paket Silver (3 Jam)", "Pilihan pas untuk sesi bermain lebih lama tanpa khawatir waktu cepat habis.", "• 3 jam bermain\n• Game kapan saja\n• Konsol & mesin ringan\n• WIFI gratis & ruangan ber-AC", "Rp30.000", 3),
             new Paket("Paket Gold (5 Jam)", "Buat kamu yang mau puas main game favorit tanpa batas waktu yang mepet!", "• 5 jam bermain\n• Akses semua game premium\n• 1 minuman gratis\n• Prioritas room", "Rp50.000", 5),
-            new Paket("Paket Malam", "Spesial untuk gamer malam yang mau suasana tenang dan bebas ngetes.", "• Bermain nonstop jam 00:00-06:00\n• Snack & minuman gratis\n• Ruang nyaman dengan lampu redup\n• Diskon untuk member", "Rp60.000", 8)
+            new Paket("Paket Malam", "Spesial untuk gamer malam yang mau suasana tenang dan bebas ngetes.", "• Bermain nonstop jam 00:00-06:00\n• Snack & minuman gratis\n• Ruang nyaman dengan lampu redup\n• Diskon untuk member", "Rp60.000", 6)
         };
 
         for (Paket p : paketList) {
@@ -45,12 +42,10 @@ public class PaketPanel extends JPanel {
         card.setLayout(new BorderLayout());
         card.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 
-        // Title
         JLabel lblTitle = new JLabel(p.name);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 14));
         lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
 
-        // Description: short label + features as plain multiline text
         JLabel lblShort = new JLabel(p.shortDesc);
         lblShort.setFont(new Font("Arial", Font.PLAIN, 12));
 
@@ -66,7 +61,6 @@ public class PaketPanel extends JPanel {
         center.add(lblShort, BorderLayout.NORTH);
         center.add(featuresArea, BorderLayout.CENTER);
 
-        // Bottom: price and button
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.setOpaque(false);
 
@@ -96,7 +90,6 @@ public class PaketPanel extends JPanel {
 
         bottom.add(btnWrap, BorderLayout.EAST);
 
-        // Put title in a small header panel to give it some left padding
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
         header.add(lblTitle, BorderLayout.WEST);
@@ -132,7 +125,6 @@ public class PaketPanel extends JPanel {
         }
     }
 
-    // Rounded white card panel
     private static class RoundedPanel extends JPanel {
 
         private int radius;

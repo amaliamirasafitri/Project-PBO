@@ -168,7 +168,6 @@ public class GameListPanel extends JPanel {
 
         dialog.add(content, BorderLayout.CENTER);
 
-        // Tombol bawah
         JButton imdbBtn = new JButton("View on Steam");
         imdbBtn.addActionListener(e -> openUrl(game.imdbUrl));
         if (game.imdbUrl == null || game.imdbUrl.isEmpty()) {

@@ -18,7 +18,6 @@ public class MainMenuPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
 
-        // Judul
         JLabel lblTitle = new JLabel("MENU UTAMA WARNET", SwingConstants.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         lblTitle.setForeground(Color.CYAN);
@@ -26,19 +25,16 @@ public class MainMenuPanel extends JPanel {
         gbc.gridwidth = 1;
         add(lblTitle, gbc);
 
-        // Tombol Pilih PC
         btnPilihPC = new JButton("Pilih PC");
         styleButton(btnPilihPC);
         gbc.gridy = 1;
         add(btnPilihPC, gbc);
 
-        // Tombol Daftar Game
         btnDaftarGame = new JButton("Daftar Game");
         styleButton(btnDaftarGame);
         gbc.gridy = 2;
         add(btnDaftarGame, gbc);
 
-        // Tombol Logout
         btnLogout = new JButton("Logout");
         btnLogout.setBackground(new Color(180, 0, 0));
         btnLogout.setForeground(Color.WHITE);
@@ -46,10 +42,9 @@ public class MainMenuPanel extends JPanel {
         gbc.gridy = 3;
         add(btnLogout, gbc);
 
-        // Action Listener
         btnPilihPC.addActionListener(e -> navigator.goToPCSelection(""));
         btnDaftarGame.addActionListener(e -> navigator.goToGameList());
-        btnLogout.addActionListener(e -> navigator.goToLogin());
+        btnLogout.addActionListener(e -> navigator.onLogout());
     }
 
     private void styleButton(JButton btn) {

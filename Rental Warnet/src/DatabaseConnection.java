@@ -12,7 +12,6 @@ public class DatabaseConnection {
     }
 
     private static void initDatabase() {
-        // 1. Buat database kalau belum ada
         try (Connection conn = DriverManager.getConnection(BASE_URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
@@ -21,7 +20,6 @@ public class DatabaseConnection {
             System.err.println("Gagal membuat database: " + e.getMessage());
         }
 
-        // 2. Buat tabel users kalau belum ada
         String createUsersTable = """
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,

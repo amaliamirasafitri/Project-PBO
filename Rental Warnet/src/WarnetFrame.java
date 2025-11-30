@@ -1,6 +1,4 @@
-
 import java.awt.CardLayout;
-import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -13,16 +11,18 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
     private PaketPanel paketPage;
     private PaymentPanel paymentPage;
     private CodePanel codePage;
-    private Map<String, Long> paketDurasi;
     private RegisterPanel registerPage;
     private LoginPanel loginPage;
     private MainMenuPanel mainMenuPanel;
     private GameListPanel gameListPage;
 
+    private String currentUsername;
+
     public WarnetFrame() {
         super("SISTEM BILLING WARNET");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         cards = new CardLayout();
         root = new JPanel(cards);
@@ -88,7 +88,7 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
     @Override
     public void showCodeThenBack(String paketName, int pcIndex, long durMillis) {
         codePage.showCode(paketName, pcIndex);
-        cards.show(root, "CODE");
+        cards.show(root, "MAIN_MENU");
     }
 
     @Override
@@ -101,4 +101,22 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
         cards.show(root, "MAIN_MENU");
     }
 
+    @Override
+    public void onLoginSuccess(String username) {
+        this.currentUsername = username;
+
+        pcSelectionPage.setCurrentUser(username);
+        paymentPage.setCurrentUser(username);
+
+        cards.show(root, "MAIN_MENU");
+    }
+
+    @Override
+    public void onLogout() {
+        if (currentUsername != null && !currentUsername.isEmpty()) {
+            WarnetDataStore.clearUserSession(currentUsername);
+        }
+        currentUsername = null;
+        cards.show(root, "LOGIN");
+    }
 }

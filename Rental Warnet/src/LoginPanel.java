@@ -69,7 +69,8 @@ public class LoginPanel extends JPanel {
 
         if (DatabaseConnection.validateLogin(user, pass)) {
             JOptionPane.showMessageDialog(this, "Login Sukses! Selamat Datang " + user);
-            navigator.goHome();
+            String username = txtUsername.getText().trim();
+            navigator.onLoginSuccess(username);
         } else {
             JOptionPane.showMessageDialog(this, 
                 "Gagal Masuk! Cek username/password", 
@@ -78,4 +79,3 @@ public class LoginPanel extends JPanel {
         }
     }
 }
-
