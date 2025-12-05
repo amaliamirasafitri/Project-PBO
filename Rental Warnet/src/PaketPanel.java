@@ -1,9 +1,14 @@
+
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.RenderingHints;
+import java.awt.BasicStroke;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class PaketPanel extends JPanel {
+
     private ScreenNavigator navigator;
     private int selectedPC = -1;
 
@@ -11,17 +16,25 @@ public class PaketPanel extends JPanel {
         this.navigator = nav;
 
         setLayout(new BorderLayout());
-        setBackground(Color.BLACK);
+        setBackground(new Color(20, 25, 35));
+
+        // Top panel dengan title
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(new Color(20, 25, 35));
+        topPanel.setLayout(new BorderLayout());
+        topPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         JLabel title = new JLabel("Pilihan Paket", SwingConstants.CENTER);
-        title.setForeground(Color.WHITE);
-        title.setFont(new Font("Arial", Font.BOLD, 22));
-        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        add(title, BorderLayout.NORTH);
+        title.setForeground(new Color(0, 255, 255));
+        title.setFont(new Font("Arial", Font.BOLD, 28));
+        topPanel.add(title, BorderLayout.CENTER);
 
-        JPanel cards = new JPanel(new GridLayout(2, 2, 20, 20));
-        cards.setBackground(Color.BLACK);
-        cards.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
+        add(topPanel, BorderLayout.NORTH);
+
+        // Cards panel
+        JPanel cards = new JPanel(new GridLayout(2, 2, 25, 25));
+        cards.setBackground(new Color(20, 25, 35));
+        cards.setBorder(new EmptyBorder(20, 40, 40, 40));
 
         List<DatabaseConnection.PaketData> paketDataList = DatabaseConnection.getAllPaket();
 
@@ -33,42 +46,52 @@ public class PaketPanel extends JPanel {
     }
 
     private JPanel createCard(DatabaseConnection.PaketData pd) {
-        RoundedPanel card = new RoundedPanel(14, Color.WHITE);
-        card.setLayout(new BorderLayout());
-        card.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        NeonCard card = new NeonCard();
+        card.setLayout(new BorderLayout(0, 12));
+        card.setBorder(new EmptyBorder(20, 18, 20, 18));
 
+        // Title
         JLabel lblTitle = new JLabel(pd.namaPaket);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 14));
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTitle.setForeground(new Color(0, 255, 255));
+        lblTitle.setBorder(new EmptyBorder(0, 0, 5, 0));
 
+        // Short description
         JLabel lblShort = new JLabel(pd.deskripsiSingkat);
         lblShort.setFont(new Font("Arial", Font.PLAIN, 12));
+        lblShort.setForeground(new Color(200, 200, 200));
 
+        // Features
         JTextArea featuresArea = new JTextArea(pd.fitur);
         featuresArea.setEditable(false);
         featuresArea.setOpaque(false);
         featuresArea.setLineWrap(true);
         featuresArea.setWrapStyleWord(true);
-        featuresArea.setFont(new Font("Arial", Font.PLAIN, 12));
+        featuresArea.setFont(new Font("Arial", Font.PLAIN, 11));
+        featuresArea.setForeground(new Color(180, 180, 180));
 
-        JPanel center = new JPanel(new BorderLayout());
+        JPanel center = new JPanel(new BorderLayout(0, 8));
         center.setOpaque(false);
         center.add(lblShort, BorderLayout.NORTH);
         center.add(featuresArea, BorderLayout.CENTER);
 
-        JPanel bottom = new JPanel(new BorderLayout());
+        // Bottom panel with price and button
+        JPanel bottom = new JPanel(new BorderLayout(15, 0));
         bottom.setOpaque(false);
 
         JLabel lblPrice = new JLabel(pd.harga);
-        lblPrice.setFont(new Font("Arial", Font.BOLD, 14));
-        lblPrice.setForeground(new Color(52, 152, 219));
+        lblPrice.setFont(new Font("Arial", Font.BOLD, 16));
+        lblPrice.setForeground(new Color(100, 255, 150));
         bottom.add(lblPrice, BorderLayout.WEST);
 
-        JButton btn = new JButton("Booking Paket");
-        btn.setBackground(new Color(52, 152, 219));
+        JButton btn = new JButton("BOOKING");
+        btn.setBackground(new Color(0, 150, 200));
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
-        btn.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        btn.setBorder(BorderFactory.createLineBorder(new Color(0, 220, 255), 2));
+        btn.setFont(new Font("Arial", Font.BOLD, 12));
+        btn.setPreferredSize(new Dimension(100, 35));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         btn.addActionListener(e -> {
             if (selectedPC <= 0) {
@@ -129,9 +152,11 @@ public class PaketPanel extends JPanel {
 
         bottom.add(btnWrap, BorderLayout.EAST);
 
+        // Header panel
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
         header.add(lblTitle, BorderLayout.WEST);
+
         card.add(header, BorderLayout.NORTH);
         card.add(center, BorderLayout.CENTER);
         card.add(bottom, BorderLayout.SOUTH);
@@ -162,28 +187,38 @@ public class PaketPanel extends JPanel {
         this.selectedPC = pcIndex;
     }
 
-    private static class RoundedPanel extends JPanel {
+    // Custom Panel dengan Border Neon untuk Card
+    private static class NeonCard extends JPanel {
 
-        private int radius;
-        private Color bg;
+        private static final Color NEON_CYAN = new Color(0, 255, 255);
 
-        RoundedPanel(int radius, Color bg) {
-            this.radius = radius;
-            this.bg = bg;
+        NeonCard() {
             setOpaque(false);
         }
 
         @Override
         protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(bg);
-            g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), radius, radius));
-            g2.setColor(new Color(220, 220, 220));
-            g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, radius, radius));
-            g2.dispose();
             super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            int w = getWidth();
+            int h = getHeight();
+            int radius = 12;
+
+            // Background gelap
+            g2d.setColor(new Color(30, 40, 50));
+            g2d.fillRoundRect(0, 0, w, h, radius, radius);
+
+            // Glow effect
+            g2d.setColor(new Color(0, 150, 200, 60));
+            g2d.setStroke(new BasicStroke(6));
+            g2d.drawRoundRect(2, 2, w - 5, h - 5, radius, radius);
+
+            // Border neon cyan
+            g2d.setColor(NEON_CYAN);
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawRoundRect(3, 3, w - 7, h - 7, radius, radius);
         }
     }
-
 }

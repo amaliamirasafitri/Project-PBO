@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class PCSelectionPanel extends JPanel {
 
@@ -18,16 +19,25 @@ public class PCSelectionPanel extends JPanel {
         this.navigator = nav;
 
         setLayout(new BorderLayout());
-        setBackground(Color.BLACK);
+        setBackground(new Color(20, 25, 35));
 
-        JLabel lblTitle = new JLabel("Daftar Station", SwingConstants.CENTER);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
-        lblTitle.setForeground(Color.WHITE);
-        add(lblTitle, BorderLayout.NORTH);
+        // Top panel dengan title
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(new Color(20, 25, 35));
+        topPanel.setLayout(new BorderLayout());
+        topPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        JLabel lblTitle = new JLabel("Pilih Station PC", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 28));
+        lblTitle.setForeground(new Color(0, 255, 255));
+        topPanel.add(lblTitle, BorderLayout.CENTER);
+
+        add(topPanel, BorderLayout.NORTH);
 
         gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(3, 4, 20, 20));
-        gridPanel.setBackground(Color.BLACK);
+        gridPanel.setBackground(new Color(20, 25, 35));
+        gridPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         int pcCount = WarnetDataStore.getPcCount();
         pcBoxes = new JPanel[pcCount + 1];
@@ -37,18 +47,19 @@ public class PCSelectionPanel extends JPanel {
 
             final int pcNumber = stationNumber;
 
-            JPanel pcBox = new JPanel(new BorderLayout());
-            pcBox.setBackground(new Color(46, 204, 113));
-            pcBox.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+            // PC Box dengan border neon
+            PCTilePanel pcBox = new PCTilePanel();
+            pcBox.setLayout(new BorderLayout());
+            pcBox.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 255), 2));
 
             JLabel lblNumber = new JLabel(String.valueOf(pcNumber), SwingConstants.CENTER);
-            lblNumber.setFont(new Font("Arial", Font.BOLD, 28));
-            lblNumber.setForeground(Color.BLACK);
+            lblNumber.setFont(new Font("Arial", Font.BOLD, 36));
+            lblNumber.setForeground(Color.WHITE);
             pcBox.add(lblNumber, BorderLayout.CENTER);
 
             JLabel lblStatus = new JLabel("Available", SwingConstants.CENTER);
             lblStatus.setFont(new Font("Arial", Font.PLAIN, 12));
-            lblStatus.setForeground(Color.WHITE);
+            lblStatus.setForeground(new Color(150, 255, 150));
             pcBox.add(lblStatus, BorderLayout.SOUTH);
 
             pcBoxes[pcNumber] = pcBox;
@@ -91,14 +102,16 @@ public class PCSelectionPanel extends JPanel {
                 @Override
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
                     if (!WarnetDataStore.isPcBusy(pcNumber)) {
-                        pcBox.setBackground(new Color(52, 152, 219));
+                        pcBox.setBackground(new Color(30, 40, 50));
+                        ((JLabel) pcBox.getComponent(0)).setForeground(new Color(0, 255, 255));
                     }
                 }
 
                 @Override
                 public void mouseExited(java.awt.event.MouseEvent evt) {
                     if (!WarnetDataStore.isPcBusy(pcNumber)) {
-                        pcBox.setBackground(new Color(46, 204, 113));
+                        pcBox.setBackground(new Color(40, 50, 60));
+                        ((JLabel) pcBox.getComponent(0)).setForeground(Color.WHITE);
                     }
                 }
             });
@@ -108,14 +121,19 @@ public class PCSelectionPanel extends JPanel {
 
         add(gridPanel, BorderLayout.CENTER);
 
+        // Bottom panel dengan button back
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        bottomPanel.setBackground(Color.BLACK);
+        bottomPanel.setBackground(new Color(20, 25, 35));
+        bottomPanel.setBorder(new EmptyBorder(10, 10, 20, 10));
 
-        JButton btnBack = new JButton("Kembali");
+        JButton btnBack = new JButton("KEMBALI");
         btnBack.setFont(new Font("Arial", Font.BOLD, 14));
-        btnBack.setBackground(new Color(52, 73, 94));
+        btnBack.setBackground(new Color(100, 60, 60));
         btnBack.setForeground(Color.WHITE);
         btnBack.setFocusPainted(false);
+        btnBack.setBorder(BorderFactory.createLineBorder(new Color(200, 100, 100), 2));
+        btnBack.setPreferredSize(new Dimension(150, 40));
+        btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnBack.addActionListener(e -> navigator.goHome());
         bottomPanel.add(btnBack);
 
@@ -176,13 +194,13 @@ public class PCSelectionPanel extends JPanel {
             }
 
             if (busy) {
-                box.setBackground(new Color(192, 57, 43));
+                box.setBackground(new Color(100, 50, 50));
                 label.setText("In Use - " + formatTime(remaining));
-                label.setForeground(Color.YELLOW);
+                label.setForeground(new Color(255, 150, 150));
             } else {
-                box.setBackground(new Color(46, 204, 113));
+                box.setBackground(new Color(40, 50, 60));
                 label.setText("Available");
-                label.setForeground(Color.WHITE);
+                label.setForeground(new Color(150, 255, 150));
             }
         }
     }
@@ -193,5 +211,24 @@ public class PCSelectionPanel extends JPanel {
         long minutes = (totalSeconds % 3600) / 60;
         long seconds = totalSeconds % 60;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+}
+
+// Custom Panel untuk PC Tile dengan efek hover
+class PCTilePanel extends JPanel {
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int w = getWidth();
+        int h = getHeight();
+
+        // Draw glow effect
+        g2d.setColor(new Color(0, 150, 200, 40));
+        g2d.setStroke(new BasicStroke(4));
+        g2d.drawRect(2, 2, w - 5, h - 5);
     }
 }
