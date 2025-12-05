@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.RenderingHints;
@@ -18,7 +17,6 @@ public class PaketPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(20, 25, 35));
 
-        // Top panel dengan title
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(20, 25, 35));
         topPanel.setLayout(new BorderLayout());
@@ -31,7 +29,6 @@ public class PaketPanel extends JPanel {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Cards panel
         JPanel cards = new JPanel(new GridLayout(2, 2, 25, 25));
         cards.setBackground(new Color(20, 25, 35));
         cards.setBorder(new EmptyBorder(20, 40, 40, 40));
@@ -50,18 +47,15 @@ public class PaketPanel extends JPanel {
         card.setLayout(new BorderLayout(0, 12));
         card.setBorder(new EmptyBorder(20, 18, 20, 18));
 
-        // Title
         JLabel lblTitle = new JLabel(pd.namaPaket);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 16));
         lblTitle.setForeground(new Color(0, 255, 255));
         lblTitle.setBorder(new EmptyBorder(0, 0, 5, 0));
 
-        // Short description
         JLabel lblShort = new JLabel(pd.deskripsiSingkat);
         lblShort.setFont(new Font("Arial", Font.PLAIN, 12));
         lblShort.setForeground(new Color(200, 200, 200));
 
-        // Features
         JTextArea featuresArea = new JTextArea(pd.fitur);
         featuresArea.setEditable(false);
         featuresArea.setOpaque(false);
@@ -75,7 +69,6 @@ public class PaketPanel extends JPanel {
         center.add(lblShort, BorderLayout.NORTH);
         center.add(featuresArea, BorderLayout.CENTER);
 
-        // Bottom panel with price and button
         JPanel bottom = new JPanel(new BorderLayout(15, 0));
         bottom.setOpaque(false);
 
@@ -152,7 +145,6 @@ public class PaketPanel extends JPanel {
 
         bottom.add(btnWrap, BorderLayout.EAST);
 
-        // Header panel
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
         header.add(lblTitle, BorderLayout.WEST);
@@ -187,7 +179,6 @@ public class PaketPanel extends JPanel {
         this.selectedPC = pcIndex;
     }
 
-    // Custom Panel dengan Border Neon untuk Card
     private static class NeonCard extends JPanel {
 
         private static final Color NEON_CYAN = new Color(0, 255, 255);
@@ -206,16 +197,13 @@ public class PaketPanel extends JPanel {
             int h = getHeight();
             int radius = 12;
 
-            // Background gelap
             g2d.setColor(new Color(30, 40, 50));
             g2d.fillRoundRect(0, 0, w, h, radius, radius);
 
-            // Glow effect
             g2d.setColor(new Color(0, 150, 200, 60));
             g2d.setStroke(new BasicStroke(6));
             g2d.drawRoundRect(2, 2, w - 5, h - 5, radius, radius);
 
-            // Border neon cyan
             g2d.setColor(NEON_CYAN);
             g2d.setStroke(new BasicStroke(2));
             g2d.drawRoundRect(3, 3, w - 7, h - 7, radius, radius);

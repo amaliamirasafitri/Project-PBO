@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -21,7 +20,6 @@ public class PCSelectionPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(20, 25, 35));
 
-        // Top panel dengan title
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(20, 25, 35));
         topPanel.setLayout(new BorderLayout());
@@ -47,7 +45,6 @@ public class PCSelectionPanel extends JPanel {
 
             final int pcNumber = stationNumber;
 
-            // PC Box dengan border neon
             PCTilePanel pcBox = new PCTilePanel();
             pcBox.setLayout(new BorderLayout());
             pcBox.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 255), 2));
@@ -121,7 +118,6 @@ public class PCSelectionPanel extends JPanel {
 
         add(gridPanel, BorderLayout.CENTER);
 
-        // Bottom panel dengan button back
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.setBackground(new Color(20, 25, 35));
         bottomPanel.setBorder(new EmptyBorder(10, 10, 20, 10));
@@ -214,7 +210,6 @@ public class PCSelectionPanel extends JPanel {
     }
 }
 
-// Custom Panel untuk PC Tile dengan efek hover
 class PCTilePanel extends JPanel {
 
     @Override
@@ -226,7 +221,6 @@ class PCTilePanel extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        // Draw glow effect
         g2d.setColor(new Color(0, 150, 200, 40));
         g2d.setStroke(new BasicStroke(4));
         g2d.drawRect(2, 2, w - 5, h - 5);

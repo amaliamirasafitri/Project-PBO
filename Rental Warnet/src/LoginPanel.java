@@ -17,12 +17,10 @@ public class LoginPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(20, 25, 35));
 
-        // Main content panel
         JPanel contentPanel = new JPanel();
         contentPanel.setOpaque(false);
         contentPanel.setLayout(new GridBagLayout());
 
-        // Neon border panel
         NeonBorderPanel neonPanel = new NeonBorderPanel();
         neonPanel.setLayout(new GridBagLayout());
         neonPanel.setBackground(new Color(20, 25, 35));
@@ -32,7 +30,6 @@ public class LoginPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 0, 0, 0);
 
-        // Title
         JLabel lblTitle = new JLabel("LOGIN SISTEM WARNET");
         lblTitle.setForeground(new Color(0, 255, 255));
         lblTitle.setFont(new Font("Arial", Font.BOLD, 32));
@@ -44,7 +41,6 @@ public class LoginPanel extends JPanel {
         gbc.weightx = 1.0;
         neonPanel.add(lblTitle, gbc);
 
-        // Username label & field
         JLabel lblUser = new JLabel("Username:");
         lblUser.setForeground(new Color(180, 180, 180));
         lblUser.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -69,7 +65,6 @@ public class LoginPanel extends JPanel {
         gbc.weightx = 1.0;
         neonPanel.add(txtUsername, gbc);
 
-        // Password label & field
         JLabel lblPass = new JLabel("Password:");
         lblPass.setForeground(new Color(180, 180, 180));
         lblPass.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -94,11 +89,9 @@ public class LoginPanel extends JPanel {
         gbc.weightx = 1.0;
         neonPanel.add(txtPassword, gbc);
 
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         buttonPanel.setOpaque(false);
 
-        // Login button
         btnLogin = new JButton("MASUK");
         btnLogin.setBackground(new Color(0, 150, 200));
         btnLogin.setForeground(Color.WHITE);
@@ -116,7 +109,6 @@ public class LoginPanel extends JPanel {
         gbc.weightx = 1.0;
         neonPanel.add(buttonPanel, gbc);
 
-        // Register link
         JButton btnRegister = new JButton("Belum punya akun? Daftar");
         btnRegister.setBorderPainted(false);
         btnRegister.setContentAreaFilled(false);
@@ -151,7 +143,6 @@ public class LoginPanel extends JPanel {
     }
 }
 
-// Custom Panel dengan Border Neon seperti di gambar
 class NeonBorderPanel extends JPanel {
 
     private static final Color NEON_CYAN = new Color(0, 255, 255);
@@ -168,43 +159,32 @@ class NeonBorderPanel extends JPanel {
         int thickness = 3;
         int cornerLen = 35;
 
-        // Outer glow (shadow effect)
         g2d.setColor(new Color(0, 150, 200, 60));
         g2d.setStroke(new BasicStroke(12));
         g2d.drawRoundRect(2, 2, w - 5, h - 5, 15, 15);
 
-        // Main border (neon cyan)
         g2d.setColor(NEON_CYAN);
         g2d.setStroke(new BasicStroke(thickness));
 
-        // Top border
         g2d.drawLine(cornerLen, thickness, w - cornerLen, thickness);
-        // Bottom border
         g2d.drawLine(cornerLen, h - thickness, w - cornerLen, h - thickness);
-        // Left border
         g2d.drawLine(thickness, cornerLen, thickness, h - cornerLen);
-        // Right border
         g2d.drawLine(w - thickness, cornerLen, w - thickness, h - cornerLen);
 
-        // Rounded corners with decorative lines
         int r = 15;
 
-        // Top-left corner
         g2d.drawArc(thickness, thickness, r * 2, r * 2, 90, 90);
         g2d.drawLine(thickness, thickness, thickness + cornerLen, thickness);
         g2d.drawLine(thickness, thickness, thickness, thickness + cornerLen);
 
-        // Top-right corner
         g2d.drawArc(w - thickness - r * 2, thickness, r * 2, r * 2, 0, 90);
         g2d.drawLine(w - thickness, thickness, w - thickness - cornerLen, thickness);
         g2d.drawLine(w - thickness, thickness, w - thickness, thickness + cornerLen);
 
-        // Bottom-left corner
         g2d.drawArc(thickness, h - thickness - r * 2, r * 2, r * 2, 180, 90);
         g2d.drawLine(thickness, h - thickness, thickness + cornerLen, h - thickness);
         g2d.drawLine(thickness, h - thickness, thickness, h - thickness - cornerLen);
 
-        // Bottom-right corner
         g2d.drawArc(w - thickness - r * 2, h - thickness - r * 2, r * 2, r * 2, 270, 90);
         g2d.drawLine(w - thickness, h - thickness, w - thickness - cornerLen, h - thickness);
         g2d.drawLine(w - thickness, h - thickness, w - thickness, h - thickness - cornerLen);

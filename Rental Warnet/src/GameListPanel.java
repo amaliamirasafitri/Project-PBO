@@ -23,7 +23,6 @@ public class GameListPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(20, 25, 35));
 
-        // Top panel dengan title
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(20, 25, 35));
         topPanel.setLayout(new BorderLayout());
@@ -36,7 +35,6 @@ public class GameListPanel extends JPanel {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Panel wrapper untuk centering konten
         JPanel centerWrapper = new JPanel();
         centerWrapper.setLayout(new BoxLayout(centerWrapper, BoxLayout.Y_AXIS));
         centerWrapper.setBackground(new Color(20, 25, 35));
@@ -55,7 +53,6 @@ public class GameListPanel extends JPanel {
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.getHorizontalScrollBar().setUnitIncrement(16);
 
-        // Custom scrollbar UI yang invisible tapi tetap berfungsi
         scroll.getHorizontalScrollBar().setUI(new javax.swing.plaf.basic.BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
@@ -101,7 +98,6 @@ public class GameListPanel extends JPanel {
             });
         }, "Load-Games-Thread").start();
 
-        // Bottom panel
         JButton backBtn = new JButton("KEMBALI");
         backBtn.setBackground(new Color(100, 60, 60));
         backBtn.setForeground(Color.WHITE);
@@ -330,7 +326,6 @@ public class GameListPanel extends JPanel {
     }
 }
 
-// Custom Panel untuk Game Card dengan Border Neon
 class GameCardPanel extends JPanel {
 
     GameCardPanel() {
@@ -348,16 +343,13 @@ class GameCardPanel extends JPanel {
         int h = getHeight();
         int radius = 8;
 
-        // Background
         g2d.setColor(new Color(35, 45, 60));
         g2d.fillRoundRect(0, 0, w, h, radius, radius);
 
-        // Glow effect
         g2d.setColor(new Color(0, 150, 200, 50));
         g2d.setStroke(new BasicStroke(3));
         g2d.drawRoundRect(1, 1, w - 3, h - 3, radius, radius);
 
-        // Border
         g2d.setColor(new Color(0, 200, 255));
         g2d.setStroke(new BasicStroke(1.5f));
         g2d.drawRoundRect(2, 2, w - 5, h - 5, radius, radius);
