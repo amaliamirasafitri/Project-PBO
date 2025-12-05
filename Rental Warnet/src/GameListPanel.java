@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
@@ -24,7 +25,7 @@ public class GameListPanel extends JPanel {
         title.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
         add(title, BorderLayout.NORTH);
 
-        JPanel grid = new JPanel(new FlowLayout(FlowLayout.LEFT, 24, 24));
+        final JPanel grid = new JPanel(new FlowLayout(FlowLayout.LEFT, 24, 24));
         grid.setBackground(new Color(10, 10, 20));
 
         JScrollPane scroll = new JScrollPane(grid);
@@ -32,10 +33,24 @@ public class GameListPanel extends JPanel {
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         add(scroll, BorderLayout.CENTER);
 
-        GameApp[] games = WarnetDataStore.getGames();
-        for (GameApp game : games) {
-            grid.add(createGameCard(game));
-        }
+        new Thread(() -> {
+            GameApp[] games = WarnetDataStore.getGames();
+
+            SwingUtilities.invokeLater(() -> {
+                if (games == null || games.length == 0) {
+                    JLabel empty = new JLabel("Belum ada data game di database.", SwingConstants.CENTER);
+                    empty.setForeground(Color.LIGHT_GRAY);
+                    grid.setLayout(new BorderLayout());
+                    grid.add(empty, BorderLayout.CENTER);
+                } else {
+                    for (GameApp game : games) {
+                        grid.add(createGameCard(game));
+                    }
+                }
+                grid.revalidate();
+                grid.repaint();
+            });
+        }, "Load-Games-Thread").start();
 
         JButton backBtn = new JButton("Kembali ke Menu");
         backBtn.addActionListener(e -> navigator.goHome());
@@ -52,16 +67,9 @@ public class GameListPanel extends JPanel {
         card.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
         JLabel cover = new JLabel("", SwingConstants.CENTER);
-        if (game.imagePath != null && !game.imagePath.isEmpty()) {
-            try {
-                ImageIcon icon = new ImageIcon(game.imagePath);
-                Image scaled = icon.getImage()
-                                   .getScaledInstance(160, 200, Image.SCALE_SMOOTH);
-                cover.setIcon(new ImageIcon(scaled));
-            } catch (Exception ex) {
-                cover.setText("No Image");
-                cover.setForeground(Color.LIGHT_GRAY);
-            }
+        Icon icon = loadGameImage(game.imagePath, 160, 200);
+        if (icon != null) {
+            cover.setIcon(icon);
         } else {
             cover.setText("No Image");
             cover.setForeground(Color.LIGHT_GRAY);
@@ -114,14 +122,9 @@ public class GameListPanel extends JPanel {
 
         JLabel cover = new JLabel();
         cover.setHorizontalAlignment(SwingConstants.CENTER);
-        if (game.imagePath != null && !game.imagePath.isEmpty()) {
-            try {
-                ImageIcon icon = new ImageIcon(game.imagePath);
-                Image scaled = icon.getImage()
-                                   .getScaledInstance(220, 320, Image.SCALE_SMOOTH);
-                cover.setIcon(new ImageIcon(scaled));
-            } catch (Exception ex) {
-            }
+        Icon detailIcon = loadGameImage(game.imagePath, 220, 320);
+        if (detailIcon != null) {
+            cover.setIcon(detailIcon);
         }
         cover.setPreferredSize(new Dimension(240, 340));
         content.add(cover, BorderLayout.WEST);
@@ -168,10 +171,10 @@ public class GameListPanel extends JPanel {
 
         dialog.add(content, BorderLayout.CENTER);
 
-        JButton imdbBtn = new JButton("View on Steam");
-        imdbBtn.addActionListener(e -> openUrl(game.imdbUrl));
+        JButton steamBtn = new JButton("View on Steam");
+        steamBtn.addActionListener(e -> openUrl(game.imdbUrl));
         if (game.imdbUrl == null || game.imdbUrl.isEmpty()) {
-            imdbBtn.setEnabled(false);
+            steamBtn.setEnabled(false);
         }
 
         JButton closeBtn = new JButton("Tutup");
@@ -179,7 +182,7 @@ public class GameListPanel extends JPanel {
 
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottom.setBackground(new Color(10, 10, 20));
-        bottom.add(imdbBtn);
+        bottom.add(steamBtn);
         bottom.add(closeBtn);
 
         dialog.add(bottom, BorderLayout.SOUTH);
@@ -188,6 +191,52 @@ public class GameListPanel extends JPanel {
         dialog.setSize(750, 450);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+    }
+
+    private Icon loadGameImage(String imagePath, int targetW, int targetH) {
+        if (imagePath == null || imagePath.trim().isEmpty()) {
+            return null;
+        }
+
+        String path = imagePath.trim();
+        String userDir = System.getProperty("user.dir");
+
+        File[] candidates = new File[]{
+                new File(path),
+                new File(userDir, path),
+                new File(userDir, "Rental Warnet/" + path),
+                new File(userDir, "Rental Warnet/Assets/" +
+                        new File(path).getName())
+        };
+
+        File found = null;
+        for (File f : candidates) {
+            System.out.println("Coba load gambar dari: '" + f.getAbsolutePath() + "'");
+            if (f.exists() && f.isFile()) {
+                found = f;
+                break;
+            } else {
+                System.out.println("File gambar TIDAK ditemukan: '" + f.getAbsolutePath() + "'");
+            }
+        }
+
+        if (found != null) {
+            ImageIcon icon = new ImageIcon(found.getAbsolutePath());
+            Image scaled = icon.getImage().getScaledInstance(targetW, targetH, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaled);
+        }
+
+        java.net.URL res = GameListPanel.class.getClassLoader().getResource(path);
+        if (res != null) {
+            System.out.println("Gambar ditemukan sebagai resource: '" + path + "'");
+            ImageIcon icon = new ImageIcon(res);
+            Image scaled = icon.getImage().getScaledInstance(targetW, targetH, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaled);
+        } else {
+            System.out.println("Gambar tidak ditemukan sebagai resource: '" + path + "'");
+        }
+
+        return null;
     }
 
     private void openUrl(String url) {

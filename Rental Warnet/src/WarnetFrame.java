@@ -49,7 +49,6 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
         root.add(gameListPage, "GAME_LIST");
         add(root);
 
-        // Sync PC status from DB at startup so in-use PCs remain in-memory marked
         WarnetDataStore.syncFromDatabase();
 
         cards.show(root, "LOGIN");
@@ -112,8 +111,6 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
         pcSelectionPage.setCurrentUser(username);
         paymentPage.setCurrentUser(username);
 
-        // Re-sync from DB on login to ensure any PC that is in-use (possibly by this user)
-        // remains marked in the UI even after logout/login cycles.
         WarnetDataStore.syncFromDatabase();
 
         cards.show(root, "MAIN_MENU");
@@ -121,8 +118,6 @@ public class WarnetFrame extends JFrame implements ScreenNavigator {
 
     @Override
     public void onLogout() {
-        // Do not clear the user's session on logout so their booked PC remains tracked
-        // in-memory (populated from DB) and will be visible when they login again.
         currentUsername = null;
         cards.show(root, "LOGIN");
     }

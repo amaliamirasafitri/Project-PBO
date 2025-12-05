@@ -164,12 +164,9 @@ public class PCSelectionPanel extends JPanel {
                 continue;
             }
 
-            // Determine busy/remaining based on global pcBusy OR if the current
-            // logged-in user owns this session (so they see their own booked PC).
             boolean busy = WarnetDataStore.isPcBusy(stationNumber);
             long remaining = WarnetDataStore.getRemainingMillisForPc(stationNumber);
 
-            // If there's a current user and they have this station booked, show it as busy to them
             if (currentUsername != null && !currentUsername.isEmpty()) {
                 int userStation = WarnetDataStore.getUserActiveStation(currentUsername);
                 if (userStation == stationNumber) {
