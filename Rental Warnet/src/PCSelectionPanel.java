@@ -1,6 +1,6 @@
+
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.Timer;
 
 public class PCSelectionPanel extends JPanel {
 
@@ -62,8 +62,8 @@ public class PCSelectionPanel extends JPanel {
                         long sisa = WarnetDataStore.getRemainingMillisForPc(pcNumber);
                         JOptionPane.showMessageDialog(
                                 PCSelectionPanel.this,
-                                "Station " + pcNumber + " sedang dipakai.\n" +
-                                "Sisa waktu: " + formatTime(sisa),
+                                "Station " + pcNumber + " sedang dipakai.\n"
+                                + "Sisa waktu: " + formatTime(sisa),
                                 "Informasi",
                                 JOptionPane.INFORMATION_MESSAGE
                         );
@@ -76,8 +76,8 @@ public class PCSelectionPanel extends JPanel {
                             long sisaUser = WarnetDataStore.getUserRemainingMillis(currentUsername);
                             JOptionPane.showMessageDialog(
                                     PCSelectionPanel.this,
-                                    "Anda sudah memesan Station " + station +
-                                    " dan masih ada sisa waktu " + formatTime(sisaUser) + ".",
+                                    "Anda sudah memesan Station " + station
+                                    + " dan masih ada sisa waktu " + formatTime(sisaUser) + ".",
                                     "Tidak dapat memesan",
                                     JOptionPane.WARNING_MESSAGE
                             );
@@ -135,7 +135,9 @@ public class PCSelectionPanel extends JPanel {
     }
 
     private long getDurasiFromPaket(String paket) {
-        if (paket == null) return 1 * 60 * 60 * 1000;
+        if (paket == null) {
+            return 1 * 60 * 60 * 1000;
+        }
 
         switch (paket) {
             case "Paket Bronze (1 Jam)":
@@ -158,10 +160,23 @@ public class PCSelectionPanel extends JPanel {
         for (int stationNumber = 1; stationNumber <= pcCount; stationNumber++) {
             JPanel box = pcBoxes[stationNumber];
             JLabel label = statusLabels[stationNumber];
-            if (box == null || label == null) continue;
+            if (box == null || label == null) {
+                continue;
+            }
 
+            // Determine busy/remaining based on global pcBusy OR if the current
+            // logged-in user owns this session (so they see their own booked PC).
             boolean busy = WarnetDataStore.isPcBusy(stationNumber);
             long remaining = WarnetDataStore.getRemainingMillisForPc(stationNumber);
+
+            // If there's a current user and they have this station booked, show it as busy to them
+            if (currentUsername != null && !currentUsername.isEmpty()) {
+                int userStation = WarnetDataStore.getUserActiveStation(currentUsername);
+                if (userStation == stationNumber) {
+                    busy = true;
+                    remaining = WarnetDataStore.getUserRemainingMillis(currentUsername);
+                }
+            }
 
             if (busy) {
                 box.setBackground(new Color(192, 57, 43));
